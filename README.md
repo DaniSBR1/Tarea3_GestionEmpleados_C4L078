@@ -193,5 +193,3 @@ Ubicada en `appsettings.json`:
 - **jQuery Validate Unobtrusive** – Validación client-side
 
 ---
-
-*Lenguajes para Aplicaciones Comerciales — Universidad de Costa Rica — 2026*
