@@ -1,0 +1,189 @@
+@model EmpleadosIndexViewModel
+@{
+    ViewData["Title"] = "Empleados";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2 class="mb-0"><i class="bi bi-people me-2 text-primary"></i>Listado de Empleados</h2>
+    <a asp-action="Create" class="btn btn-primary">
+        <i class="bi bi-person-plus me-1"></i>Nuevo Empleado
+    </a>
+</div>
+
+<!-- ──── Buscador ──────────────────────────────────────────────────── -->
+<div class="card mb-4">
+    <div class="card-body py-3">
+        <form method="get" asp-action="Index" class="row g-2 align-items-end">
+            <div class="col-md-8">
+                <label for="busqueda" class="form-label fw-semibold">
+                    <i class="bi bi-search me-1"></i>Buscar por nombre, apellidos o departamento
+                </label>
+                <input type="text" id="busqueda" name="busqueda"
+                       value="@Model.Busqueda"
+                       class="form-control"
+                       placeholder="Ej: Ana, TI, Finanzas…" />
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-primary w-100">
+                    <i class="bi bi-search me-1"></i>Buscar
+                </button>
+            </div>
+            <div class="col-md-2">
+                <a asp-action="Index" class="btn btn-outline-secondary w-100">
+                    <i class="bi bi-x-circle me-1"></i>Limpiar
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- ──── Resumen de resultados ────────────────────────────────────── -->
+<div class="d-flex justify-content-between align-items-center mb-2 text-muted small">
+    <span>
+        Total encontrados: <strong>@Model.TotalRegistros</strong> empleado(s)
+        @if (!string.IsNullOrWhiteSpace(Model.Busqueda))
+        {
+            <span> &mdash; Filtro: <em>"@Model.Busqueda"</em></span>
+        }
+    </span>
+    <span>Página <strong>@Model.PaginaActual</strong> de <strong>@Model.TotalPaginas</strong></span>
+</div>
+
+<!-- ──── Tabla ────────────────────────────────────────────────────── -->
+<div class="card">
+    <div class="card-body p-0">
+        @if (!Model.Empleados.Any())
+        {
+            <div class="text-center py-5 text-muted">
+                <i class="bi bi-inbox fs-1"></i>
+                <p class="mt-2">No se encontraron empleados con los criterios indicados.</p>
+            </div>
+        }
+        else
+        {
+            <div class="table-responsive">
+                <table class="table table-hover table-striped mb-0 align-middle">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Nombre Completo</th>
+                            <th>Departamento</th>
+                            <th class="text-end">Salario (₡)</th>
+                            <th>Fecha Ingreso</th>
+                            <th class="text-center">Estado</th>
+                            <th class="text-center">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var empleado in Model.Empleados)
+                        {
+                            <tr>
+                                <td class="text-muted small">@empleado.Id</td>
+                                <td>
+                                    <strong>@empleado.NombreCompleto</strong>
+                                </td>
+                                <td>
+                                    <span class="badge bg-secondary bg-opacity-75 fs-6 fw-normal">
+                                        @empleado.Departamento
+                                    </span>
+                                </td>
+                                <td class="text-end">@empleado.Salario.ToString("N0")</td>
+                                <td>@empleado.FechaIngreso.ToString("dd/MM/yyyy")</td>
+                                <td class="text-center">
+                                    @if (empleado.Activo)
+                                    {
+                                        <span class="badge badge-activo px-3 py-2">
+                                            <i class="bi bi-check-circle me-1"></i>Activo
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge badge-baja px-3 py-2">
+                                            <i class="bi bi-x-circle me-1"></i>Dado de Baja
+                                        </span>
+                                    }
+                                </td>
+                                <td class="text-center">
+                                    <div class="btn-group btn-group-sm" role="group">
+                                        <!-- Editar -->
+                                        <a asp-action="Edit" asp-route-id="@empleado.Id"
+                                           class="btn btn-outline-primary" title="Editar">
+                                            <i class="bi bi-pencil"></i>
+                                        </a>
+
+                                        <!-- ToggleActivo -->
+                                        <form asp-action="ToggleActivo" method="post" class="d-inline">
+                                            @Html.AntiForgeryToken()
+                                            <input type="hidden" name="id" value="@empleado.Id" />
+                                            <input type="hidden" name="busqueda" value="@Model.Busqueda" />
+                                            <input type="hidden" name="pagina" value="@Model.PaginaActual" />
+                                            @if (empleado.Activo)
+                                            {
+                                                <button type="submit" class="btn btn-outline-warning btn-sm"
+                                                        title="Dar de Baja"
+                                                        onclick="return confirm('¿Confirma dar de baja a @empleado.NombreCompleto?')">
+                                                    <i class="bi bi-person-dash"></i> Dar de Baja
+                                                </button>
+                                            }
+                                            else
+                                            {
+                                                <button type="submit" class="btn btn-outline-success btn-sm"
+                                                        title="Activar"
+                                                        onclick="return confirm('¿Confirma activar a @empleado.NombreCompleto?')">
+                                                    <i class="bi bi-person-check"></i> Activar
+                                                </button>
+                                            }
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+</div>
+
+<!-- ──── Barra de paginación ─────────────────────────────────────── -->
+<nav aria-label="Paginación" class="mt-4">
+    <ul class="pagination justify-content-center">
+        <!-- Anterior -->
+        <li class="page-item @(!Model.TienePaginaAnterior ? "disabled" : "")">
+            <a class="page-link"
+               asp-action="Index"
+               asp-route-busqueda="@Model.Busqueda"
+               asp-route-pagina="@(Model.PaginaActual - 1)"
+               aria-label="Anterior">
+                <span aria-hidden="true">&laquo;</span> Anterior
+            </a>
+        </li>
+
+        <!-- Números de página -->
+        @for (int i = 1; i <= Model.TotalPaginas; i++)
+        {
+            <li class="page-item @(i == Model.PaginaActual ? "active" : "")">
+                <a class="page-link"
+                   asp-action="Index"
+                   asp-route-busqueda="@Model.Busqueda"
+                   asp-route-pagina="@i">@i</a>
+            </li>
+        }
+
+        <!-- Siguiente -->
+        <li class="page-item @(!Model.TienePaginaSiguiente ? "disabled" : "")">
+            <a class="page-link"
+               asp-action="Index"
+               asp-route-busqueda="@Model.Busqueda"
+               asp-route-pagina="@(Model.PaginaActual + 1)"
+               aria-label="Siguiente">
+                Siguiente <span aria-hidden="true">&raquo;</span>
+            </a>
+        </li>
+    </ul>
+</nav>
+
+<p class="text-center text-muted small">
+    Página <strong>@Model.PaginaActual</strong> de <strong>@Model.TotalPaginas</strong>
+    &mdash; Total de registros: <strong>@Model.TotalRegistros</strong>
+</p>

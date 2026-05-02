@@ -1,0 +1,100 @@
+@model Empleado
+@{
+    ViewData["Title"] = "Editar Empleado";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-7">
+        <div class="card">
+            <div class="card-header bg-warning text-dark">
+                <h4 class="mb-0">
+                    <i class="bi bi-pencil-square me-2"></i>Editar Empleado: @Model.NombreCompleto
+                </h4>
+            </div>
+            <div class="card-body">
+                <form asp-action="Edit" asp-route-id="@Model.Id" method="post">
+                    @Html.AntiForgeryToken()
+
+                    <!-- Id oculto obligatorio para el POST -->
+                    <input asp-for="Id" type="hidden" />
+
+                    <div class="row g-3">
+
+                        <!-- Nombre -->
+                        <div class="col-md-6">
+                            <label asp-for="Nombre" class="form-label fw-semibold"></label>
+                            <input asp-for="Nombre" class="form-control" />
+                            <span asp-validation-for="Nombre" class="text-danger small"></span>
+                        </div>
+
+                        <!-- Apellidos -->
+                        <div class="col-md-6">
+                            <label asp-for="Apellidos" class="form-label fw-semibold"></label>
+                            <input asp-for="Apellidos" class="form-control" />
+                            <span asp-validation-for="Apellidos" class="text-danger small"></span>
+                        </div>
+
+                        <!-- Departamento -->
+                        <div class="col-md-6">
+                            <label asp-for="Departamento" class="form-label fw-semibold"></label>
+                            <input asp-for="Departamento" class="form-control" />
+                            <span asp-validation-for="Departamento" class="text-danger small"></span>
+                        </div>
+
+                        <!-- Salario -->
+                        <div class="col-md-6">
+                            <label asp-for="Salario" class="form-label fw-semibold"></label>
+                            <div class="input-group">
+                                <span class="input-group-text">₡</span>
+                                <input asp-for="Salario" class="form-control" type="number"
+                                       min="400000" max="10000000" step="1000" />
+                            </div>
+                            <span asp-validation-for="Salario" class="text-danger small"></span>
+                            <div class="form-text">Rango permitido: ₡400,000 – ₡10,000,000</div>
+                        </div>
+
+                        <!-- Fecha de Ingreso -->
+                        <div class="col-md-6">
+                            <label asp-for="FechaIngreso" class="form-label fw-semibold"></label>
+                            <input asp-for="FechaIngreso" class="form-control" type="date" />
+                            <span asp-validation-for="FechaIngreso" class="text-danger small"></span>
+                        </div>
+
+                        <!-- Activo -->
+                        <div class="col-md-6 d-flex align-items-end">
+                            <div class="form-check form-switch mb-2">
+                                <input asp-for="Activo" class="form-check-input" type="checkbox" role="switch" />
+                                <label asp-for="Activo" class="form-check-label fw-semibold"></label>
+                            </div>
+                        </div>
+
+                    </div><!-- /row -->
+
+                    <hr class="my-4" />
+
+                    <div class="d-flex gap-2 justify-content-end">
+                        <a asp-action="Index" class="btn btn-outline-secondary">
+                            <i class="bi bi-arrow-left me-1"></i>Cancelar
+                        </a>
+                        <button type="submit" class="btn btn-warning">
+                            <i class="bi bi-floppy me-1"></i>Guardar Cambios
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Información de auditoría -->
+        <div class="card mt-3 border-0 bg-light">
+            <div class="card-body small text-muted">
+                <i class="bi bi-info-circle me-1"></i>
+                ID del empleado: <strong>@Model.Id</strong> &mdash;
+                Fecha de ingreso original: <strong>@Model.FechaIngreso.ToString("dd/MM/yyyy")</strong>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
