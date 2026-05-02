@@ -187,4 +187,6 @@ Ubicada en `appsettings.json`:
 - **Bootstrap Icons** – Iconografía
 - **jQuery Validate Unobtrusive** – Validación client-side
 
+- Link Repositorio Github: https://github.com/DaniSBR1/Tarea3_GestionEmpleados_C4L078
+
 ---
