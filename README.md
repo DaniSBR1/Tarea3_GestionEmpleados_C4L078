@@ -10,8 +10,8 @@
 
 | Campo   | Valor |
 |---------|-------|
-| Nombre  | _(Ingrese su nombre)_ |
-| Carnet  | _(Ingrese su carnet)_ |
+| Nombre  | _(Daniel Vindas Navarro)_ |
+| Carnet  | _(C4L078)_ |
 
 ---
 
@@ -182,24 +182,6 @@ Ubicada en `appsettings.json`:
 
 > Si su instancia de SQL Express tiene un nombre diferente (p. ej. `LAPTOP\SQLEXPRESS`), actualice el valor de `Server` en consecuencia.
 
----
-
-## Datos de seed incluidos
-
-| # | Nombre           | Departamento     | Salario       | Estado     |
-|---|------------------|------------------|---------------|------------|
-| 1 | Carlos Ramírez   | TI               | ₡1,200,000   | Activo     |
-| 2 | Ana González     | TI               | ₡1,100,000   | Activo     |
-| 3 | Laura Vargas     | TI               | ₡980,000     | Activo     |
-| 4 | Jorge Méndez     | Finanzas         | ₡1,500,000   | Activo     |
-| 5 | María Fernández  | Finanzas         | ₡1,350,000   | Activo     |
-| 6 | Andrés Jiménez   | Recursos Humanos | ₡900,000     | Activo     |
-| 7 | Sofía Castro     | Recursos Humanos | ₡850,000     | Dado de Baja |
-| 8 | Diego Alvarado   | Operaciones      | ₡760,000     | Activo     |
-| 9 | Valeria Herrera  | Operaciones      | ₡720,000     | Activo     |
-|10 | Roberto Quesada  | Gerencia         | ₡3,500,000   | Activo     |
-
----
 
 ## Tecnologías utilizadas
 
