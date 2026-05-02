@@ -177,8 +177,6 @@ Ubicada en `appsettings.json`:
 }
 ```
 
-> Si su instancia de SQL Express tiene un nombre diferente (p. ej. `LAPTOP\SQLEXPRESS`), actualice el valor de `Server` en consecuencia.
-
 
 ## Tecnologías utilizadas
 
