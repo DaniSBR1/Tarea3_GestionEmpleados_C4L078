@@ -19,7 +19,6 @@ namespace Tarea3_GestionEmpleados.Repositories
 
             return await _context.Empleados
                 .OrderBy(e => e.Id)
-                .ThenBy(e => e.Nombre)
                 .ToListAsync();
         }
 
@@ -42,8 +41,7 @@ namespace Tarea3_GestionEmpleados.Repositories
                     e.Nombre.ToLower().Contains(terminoLower) ||
                     e.Apellidos.ToLower().Contains(terminoLower) ||
                     e.Departamento.ToLower().Contains(terminoLower))
-                .OrderBy(e => e.Apellidos)
-                .ThenBy(e => e.Nombre)
+                .OrderBy(e => e.Id)
                 .ToListAsync();
         }
 
@@ -53,8 +51,7 @@ namespace Tarea3_GestionEmpleados.Repositories
             var query = AplicarFiltro(_context.Empleados.AsQueryable(), busqueda);
 
             return await query
-                .OrderBy(e => e.Apellidos)
-                .ThenBy(e => e.Nombre)
+                .OrderBy(e => e.Id)
                 .Skip((pagina - 1) * tamano)
                 .Take(tamano)
                 .ToListAsync();
