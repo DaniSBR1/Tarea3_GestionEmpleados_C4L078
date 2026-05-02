@@ -1,8 +1,5 @@
 # Tarea 3 – Sistema de Gestión de Empleados con EF Core
 
-**Universidad de Costa Rica**  
-**Curso:** Lenguajes para Aplicaciones Comerciales  
-**Semana:** 6 – Capa de Acceso a Datos y Entity Framework Core
 
 ---
 
@@ -39,7 +36,7 @@ Tarea3_GestionEmpleados/
 ├── Controllers/
 │   └── EmpleadosController.cs       # Index, Create, Edit, ToggleActivo
 ├── Data/
-│   └── AppDbContext.cs               # DbContext + Seed (10 empleados)
+│   └── AppDbContext.cs               # DbContext 
 ├── Migrations/
 │   ├── 20260101000000_InitialCreate.cs
 │   └── AppDbContextModelSnapshot.cs
